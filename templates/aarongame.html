@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}aarongame{% endblock %}
+
+{% block content %}
+<h1 style="text-align:center;">Spot the Unusual Aaron!</h1>
+<div class="grid">
+    {% for i in range(9) %}
+        <img src="{{ url_for('static', filename='images/' + images[i]) }}" onclick="checkChoice({{ i }})">
+    {% endfor %}
+</div>
+
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 150px);
+        grid-gap: 10px;
+        justify-content: center;
+        margin-top: 50px;
+    }
+    .grid img {
+        width: 150px;
+        height: 150px;
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+    .grid img.correct {
+        border-color: green;
+    }
+    .grid img.wrong {
+        border-color: red;
+    }
+</style>
+
+<script>
+    const correctIndex = {{ different_index }};
+    function checkChoice(index) {
+        const imgs = document.querySelectorAll('.grid img');
+        imgs.forEach((img, i) => {
+            img.classList.remove('correct', 'wrong');
+            if (i === index) {
+                if (i === correctIndex) {
+                    img.classList.add('correct');
+                } else {
+                    img.classList.add('wrong');
+                }
+                // 🔁 Reset the game after 500ms
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            }
+        });
+    }
+</script>
+{% endblock %}

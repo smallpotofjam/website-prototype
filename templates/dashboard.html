@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2>Welcome, {{ user }}!</h2>
+
+<h3>Notifications:</h3>
+<ul>
+  {% for note in notifications %}
+    <li>{{ note }}</li>
+  {% endfor %}
+</ul>
+
+<h3>Project Stats:</h3>
+<ul>
+  <li>Total Projects: {{ stats.projects }}</li>
+  <li>Total Tasks: {{ stats.tasks }}</li>
+  <li>Completed Tasks: {{ stats.completed }}</li>
+</ul>
+{% endblock %}
+
