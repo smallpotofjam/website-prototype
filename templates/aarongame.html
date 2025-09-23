@@ -4,52 +4,326 @@
 
 {% block content %}
 <h1 style="text-align:center;">Spot the Unusual Aaron!</h1>
-<div class="grid">
-    {% for i in range(9) %}
-        <img src="{{ url_for('static', filename='images/' + images[i]) }}" onclick="checkChoice({{ i }})">
-    {% endfor %}
-</div>
 
+<!-- Score and Feedback -->
+
+
+<div class="game-wrapper">
+  <div class="grid-container">
+    <p id="score" class="score-text">Score: <span id="scoreValue">0</span></p>
+    <p id="feedback" class="feedback-text"></p>
+    <p id="timer" class="timer-text">Time left: 3s</p>
+    <div class="grid">
+      {% for i in range(9) %}
+    <div class="zapper-wrapper
+                {% if i == zapped_zapper_index and play_zap_animation and images[i] == 'zapper.png' %}
+                  zapped-zapper
+                {% endif %}">
+      <img src="{{ url_for('static', filename='images/' + images[i]) }}" onclick="checkChoice({{ i }})">
+    </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-label">Progress</div>
+    <div class="progress-bar">
+      <div id="progressFill"></div>
+    </div>
+    <div class="progress-max">67 pts</div>
+  </div>
+</div>
 <style>
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(3, 150px);
-        grid-gap: 10px;
-        justify-content: center;
-        margin-top: 50px;
-    }
-    .grid img {
-        width: 150px;
-        height: 150px;
-        cursor: pointer;
-        border: 2px solid transparent;
-    }
-    .grid img.correct {
-        border-color: green;
-    }
-    .grid img.wrong {
-        border-color: red;
-    }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 270px); /* 25% smaller than 360px */
+  gap: 22px; /* slightly reduced spacing */
+  justify-content: center;
+  margin-top: 50px;
+  padding: 0 20px;
+}
+
+.grid img {
+  width: 270px;
+  height: 270px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease-in-out;
+}
+
+.grid img.correct {
+  border-color: green;
+}
+
+.grid img.wrong {
+  border-color: red;
+}
+
+.grid img:hover {
+  transform: scale(1.05);
+}
+.grid-container {
+  margin-top: 30px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  text-align: center;
+}
+
+.feedback-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+  min-height: 40px; /* 👈 Reserve space for feedback */
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+.score-text {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #555;
+}
+.feedback-text, .score-text {
+  transition: all 0.3s ease-in-out;
+}
+.game-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center; /* 👈 This centers the entire game block */
+  margin-top: 30px;
+}
+
+.progress-container {
+  margin-left: 10px; /* 👈 This sets the exact 10px gap */
+  margin-top: 30px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 80px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress-label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 300px;
+  background-color: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+#progressFill {
+  background-color: #4caf50;
+  width: 100%;
+  height: 0%;
+  position: absolute;
+  bottom: 0;
+  transition: height 0.3s ease-in-out;
+}
+
+.progress-max {
+  font-size: 0.9rem;
+  color: #666;
+}
+.grid img[src*="gold"] {
+  box-shadow: 0 0 15px 5px gold;
+  border-radius: 8px;
+}
+@keyframes goldPulse {
+  0% { box-shadow: 0 0 10px 2px gold; }
+  50% { box-shadow: 0 0 20px 6px gold; }
+  100% { box-shadow: 0 0 10px 2px gold; }
+}
+
+.grid img[src*="gold"] {
+  animation: goldPulse 1.5s infinite;
+}
+.grid img[src*="gold"] {
+  border: 2px solid gold;
+  border-radius: 10px;
+}
+.timer-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #d9534f;
+  margin-bottom: 10px;
+}
+@keyframes zapperPulse {
+  0% { box-shadow: 0 0 10px 2px #00bfff; }
+  50% { box-shadow: 0 0 20px 6px #00bfff; }
+  100% { box-shadow: 0 0 10px 2px #00bfff; }
+}
+
+.grid img[src*="zapper"] {
+  border: 2px solid #00bfff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px 5px #00bfff;
+  animation: zapperPulse 1.5s infinite;
+}
+.zapper-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.zapped-zapper::before {
+  content: "⚡";
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 3rem;
+  color: #00bfff;
+  opacity: 0;
+  animation: zapCrackle 0.8s ease-out forwards;
+  text-shadow:
+    0 0 10px #00bfff,
+    0 0 20px #00bfff,
+    0 0 30px #00bfff,
+    0 0 40px #00bfff;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes zapCrackle {
+  0% {
+    top: -60px;
+    opacity: 0;
+    transform: translateX(-50%) scaleY(0.5) rotate(0deg);
+    text-shadow: 0 0 5px #00bfff;
+  }
+  25% {
+    opacity: 1;
+    transform: translateX(-50%) scaleY(1.2) rotate(10deg);
+    text-shadow: 0 0 20px #00bfff;
+  }
+  50% {
+    transform: translateX(-50%) scaleY(1) rotate(-10deg);
+    text-shadow: 0 0 30px #00bfff;
+  }
+  75% {
+    transform: translateX(-50%) scaleY(1.1) rotate(5deg);
+    text-shadow: 0 0 40px #00bfff;
+  }
+  100% {
+    top: 30px;
+    opacity: 0;
+    transform: translateX(-50%) scaleY(0.8) rotate(0deg);
+    text-shadow: 0 0 10px #00bfff;
+  }
+.zapped-zapper img {
+  animation: zapFlash 0.3s ease-in-out;
+}
+
+@keyframes zapFlash {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(2.5); }
+  100% { filter: brightness(1); }
+}
 </style>
 
 <script>
-    const correctIndex = {{ different_index }};
-    function checkChoice(index) {
-        const imgs = document.querySelectorAll('.grid img');
-        imgs.forEach((img, i) => {
-            img.classList.remove('correct', 'wrong');
-            if (i === index) {
-                if (i === correctIndex) {
-                    img.classList.add('correct');
-                } else {
-                    img.classList.add('wrong');
-                }
-                // 🔁 Reset the game after 500ms
-                setTimeout(() => {
-                    location.reload();
-                }, 500);
-            }
-        });
+  const correctIndex = {{ different_index }};
+  let score = parseInt(localStorage.getItem('aaronScore')) || 0;
+  let hasGuessed = false;
+  let timeLeft = 3;
+
+  const timerDisplay = document.getElementById('timer');
+  const scoreDisplay = document.getElementById('scoreValue');
+  const feedback = document.getElementById('feedback');
+  const progressFill = document.getElementById('progressFill');
+
+  scoreDisplay.textContent = score;
+  updateProgressBar(score);
+
+  function updateProgressBar(score) {
+    const maxScore = 67;
+    const percent = Math.min((score / maxScore) * 100, 100);
+    progressFill.style.height = percent + "%";
+  }
+
+  const countdown = setInterval(() => {
+    timeLeft--;
+    timerDisplay.textContent = `Time left: ${timeLeft}s`;
+
+    if (timeLeft <= 0 && !hasGuessed) {
+      clearInterval(countdown);
+      feedback.textContent = "⏰ Time's up! Score reset.";
+      feedback.style.color = "red";
+      score = 0;
+      localStorage.setItem('aaronScore', score);
+      scoreDisplay.textContent = score;
+      updateProgressBar(score);
+      setTimeout(() => location.reload(), 1000);
     }
+  }, 1000);
+
+  function checkChoice(index) {
+  if (hasGuessed) return;
+  hasGuessed = true;
+  clearInterval(countdown);
+
+  const imgs = document.querySelectorAll('.grid img');
+  imgs.forEach((img, i) => {
+    img.classList.remove('correct', 'wrong');
+    if (i === index) {
+      const src = img.src;
+
+      if (i === correctIndex) {
+        img.classList.add('correct');
+        feedback.textContent = "✅ Correct!";
+        feedback.style.color = "green";
+        score++;
+      } else if (src.includes('gold.png')) {
+        img.classList.add('correct');
+        feedback.textContent = "💰 Gold! +10 points!";
+        feedback.style.color = "gold";
+        score += 10;
+      } else if (src.includes('gold2.png')) {
+        img.classList.add('wrong');
+        feedback.textContent = "💀 Fake gold! Score reset.";
+        feedback.style.color = "red";
+        score = 0;
+      } else if (src.includes('zapper.png')) {
+        img.classList.add('correct');
+        feedback.textContent = "⚡ Zapper! +5 points!";
+        feedback.style.color = "#00bfff";
+        score += 5;
+
+        if (Math.random() < 0.75) {
+          const zapTargets = [...Array(9).keys()].filter(i => i !== index);
+          const zappedIndex = zapTargets[Math.floor(Math.random() * zapTargets.length)];
+          fetch('/save_zapped/' + zappedIndex);
+        }
+      } else {
+        img.classList.add('wrong');
+        feedback.textContent = "❌ Wrong! Score reset.";
+        feedback.style.color = "red";
+        score = 0;
+      }
+
+      localStorage.setItem('aaronScore', score);
+      scoreDisplay.textContent = score;
+      updateProgressBar(score);
+
+      setTimeout(() => location.reload(), 500);
+    }
+  });
+}
 </script>
 {% endblock %}

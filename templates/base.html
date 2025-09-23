@@ -8,9 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark  ">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('home') }}">Bean & Brew</a>
+        <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
+        Bean & Brew
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -53,4 +56,3 @@
 
 </body>
 </html>
-
