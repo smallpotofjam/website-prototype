@@ -13,16 +13,19 @@
     <p id="score" class="score-text">Score: <span id="scoreValue">0</span></p>
     <p id="feedback" class="feedback-text"></p>
     <p id="timer" class="timer-text">Time left: 3s</p>
-    <div class="grid">
-      {% for i in range(9) %}
-    <div class="zapper-wrapper
-                {% if i == zapped_zapper_index and play_zap_animation and images[i] == 'zapper.png' %}
-                  zapped-zapper
-                {% endif %}">
-      <img src="{{ url_for('static', filename='images/' + images[i]) }}" onclick="checkChoice({{ i }})">
-    </div>
-      {% endfor %}
-    </div>
+    <div class="grid-container {% if is_lightning_round %}lightning-round{% endif %}">
+  <div class="grid {% if is_lightning_round %}grid-4x4{% else %}grid-3x3{% endif %}">
+    {% for i in range(images|length) %}
+      <div class="zapper-wrapper
+                  {% if i == zapped_zapper_index and play_zap_animation and images[i] == 'zapper.png' %}
+                    zapped-zapper
+                  {% endif %}">
+        <img src="{{ url_for('static', filename='images/' + images[i]) }}"
+             onclick="checkChoice({{ i }})">
+      </div>
+    {% endfor %}
+  </div>
+</div>
   </div>
 
   <div class="progress-container">
@@ -32,6 +35,7 @@
     </div>
     <div class="progress-max">67 pts</div>
   </div>
+
 </div>
 <style>
 .grid {
@@ -235,10 +239,37 @@
   50% { filter: brightness(2.5); }
   100% { filter: brightness(1); }
 }
+.grid-3x3 {
+  grid-template-columns: repeat(3, 270px);
+}
+.grid-3x3 img {
+  width: 270px;
+  height: 270px;
+}
+.grid-4x4 {
+  grid-template-columns: repeat(4, 180px);
+  gap: 14px;
+}
+
+.grid-4x4 img {
+  width: 180px;
+  height: 180px;
+}
+.lightning-round {
+  background-color: #007bff;
+  box-shadow: 0 0 30px #00bfff inset;
+  transition: background-color 0.3s ease-in-out;
+}
+@keyframes flashScreen {
+  0% { background-color: #00bfff; }
+  100% { background-color: white; }
+}
 </style>
 
 <script>
-  const correctIndex = {{ different_index }};
+  const isLightningRound = {{ 'true' if is_lightning_round else 'false' }};
+  const requiredIndices = isLightningRound ? {{ different_indices|tojson }} : [{{ different_index|default(0) }}];
+  let selectedIndices = [];
   let score = parseInt(localStorage.getItem('aaronScore')) || 0;
   let hasGuessed = false;
   let timeLeft = 3;
@@ -261,7 +292,7 @@
     timeLeft--;
     timerDisplay.textContent = `Time left: ${timeLeft}s`;
 
-    if (timeLeft <= 0 && !hasGuessed) {
+    if (timeLeft <= 0 && (!hasGuessed || isLightningRound)) {
       clearInterval(countdown);
       feedback.textContent = "⏰ Time's up! Score reset.";
       feedback.style.color = "red";
@@ -273,57 +304,76 @@
     }
   }, 1000);
 
+
+
   function checkChoice(index) {
-  if (hasGuessed) return;
-  hasGuessed = true;
+  if (hasGuessed && !isLightningRound) return;
+
   clearInterval(countdown);
-
   const imgs = document.querySelectorAll('.grid img');
-  imgs.forEach((img, i) => {
-    img.classList.remove('correct', 'wrong');
-    if (i === index) {
-      const src = img.src;
+  const img = imgs[index];
+  const src = img.src;
 
-      if (i === correctIndex) {
-        img.classList.add('correct');
-        feedback.textContent = "✅ Correct!";
-        feedback.style.color = "green";
-        score++;
-      } else if (src.includes('gold.png')) {
-        img.classList.add('correct');
-        feedback.textContent = "💰 Gold! +10 points!";
-        feedback.style.color = "gold";
-        score += 10;
-      } else if (src.includes('gold2.png')) {
-        img.classList.add('wrong');
-        feedback.textContent = "💀 Fake gold! Score reset.";
-        feedback.style.color = "red";
-        score = 0;
-      } else if (src.includes('zapper.png')) {
-        img.classList.add('correct');
-        feedback.textContent = "⚡ Zapper! +5 points!";
-        feedback.style.color = "#00bfff";
-        score += 5;
+  img.classList.remove('correct', 'wrong');
 
-        if (Math.random() < 0.75) {
-          const zapTargets = [...Array(9).keys()].filter(i => i !== index);
-          const zappedIndex = zapTargets[Math.floor(Math.random() * zapTargets.length)];
-          fetch('/save_zapped/' + zappedIndex);
-        }
-      } else {
-        img.classList.add('wrong');
-        feedback.textContent = "❌ Wrong! Score reset.";
-        feedback.style.color = "red";
-        score = 0;
-      }
+  if (requiredIndices.includes(index)) {
+    img.classList.add('correct');
+    feedback.textContent = "✅ Found one!";
+    feedback.style.color = "green";
+    selectedIndices.push(index);
 
+    if (isLightningRound && selectedIndices.length === requiredIndices.length) {
+      score += 3;
+      feedback.textContent = "⚡ All found! +3 points!";
       localStorage.setItem('aaronScore', score);
       scoreDisplay.textContent = score;
       updateProgressBar(score);
-
-      setTimeout(() => location.reload(), 500);
+      setTimeout(() => location.reload(), 800);
+      return;
     }
-  });
+  } else if (src.includes('gold.png')) {
+    img.classList.add('correct');
+    feedback.textContent = "💰 Gold! +10 points!";
+    feedback.style.color = "gold";
+    score += 10;
+  } else if (src.includes('gold2.png')) {
+    img.classList.add('wrong');
+    feedback.textContent = "💀 Fake gold! Score reset.";
+    feedback.style.color = "red";
+    score = 0;
+  } else if (src.includes('zapper.png')) {
+    img.classList.add('correct');
+    feedback.textContent = "⚡ Zapper! +5 points!";
+    feedback.style.color = "#00bfff";
+    score += 5;
+
+    if (Math.random() < 0.75) {
+      const zapTargets = [...Array(imgs.length).keys()].filter(i => i !== index);
+      const zappedIndex = zapTargets[Math.floor(Math.random() * zapTargets.length)];
+      fetch('/save_zapped/' + zappedIndex);
+    }
+  } else {
+    img.classList.add('wrong');
+    feedback.textContent = "❌ Wrong! Score reset.";
+    feedback.style.color = "red";
+    score = 0;
+  }
+
+  localStorage.setItem('aaronScore', score);
+  scoreDisplay.textContent = score;
+  updateProgressBar(score);
+
+  if (!isLightningRound || selectedIndices.length === requiredIndices.length || score === 0) {
+    setTimeout(() => location.reload(), 800);
+  }
+
+  hasGuessed = true;
+
+  if (isLightningRound) {
+  document.body.style.animation = "flashScreen 0.5s";
+}
+
+
 }
 </script>
 {% endblock %}

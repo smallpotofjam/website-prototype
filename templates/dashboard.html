@@ -3,20 +3,32 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h2>Welcome, {{ user }}!</h2>
 
-<h3>Notifications:</h3>
-<ul>
-  {% for note in notifications %}
-    <li>{{ note }}</li>
-  {% endfor %}
-</ul>
+<style>
 
-<h3>Project Stats:</h3>
-<ul>
-  <li>Total Projects: {{ stats.projects }}</li>
-  <li>Total Tasks: {{ stats.tasks }}</li>
-  <li>Completed Tasks: {{ stats.completed }}</li>
-</ul>
+  .hover-text { color: #00ff00; }
+
+  .hover-text:hover { color: red; }
+
+</style>
+
+
+
+<p class="hover-text">Hover over this text.</p>
+
+
+
+<button onclick="document.body.style.backgroundColor='lightyellow'">Click Me</button>
+<p
+
+  onmouseover="this.style.color='red'"
+
+  onmouseout="this.style.color='black'">
+
+  Hover over this text.
+
+</p>
+
+
 {% endblock %}
 

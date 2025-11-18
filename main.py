@@ -183,9 +183,14 @@ def save_zapped(index):
 
 @app.route('/secondpage')
 def secondpage():
-    return render_template('secondpage.html', current_year=datetime.now().year)
+    return render_template('secondpage.html', current_year=datetime.now().year)\
 
 
+@app.route('/coffee')
+def coffee_page():
+    # List of coffee image filenames
+    coffees = [f"coffee{i}.jpg" for i in range(1, 11)]
+    return render_template('coffee.html', coffees=coffees)
 
 
 
@@ -207,3 +212,4 @@ def dashboard():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
