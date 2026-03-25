@@ -1,61 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <meta charset="UTF-8">
-    <title>{% block title %}My Flask Site{% endblock %}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
+<title>Bean & Brew</title>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark  ">
-      <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
-        Bean & Brew
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('secondpage') }}">Second page</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('aarongame') }}">Aaron game</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('coffee_page') }}">coffee</a>
 
+<!-- GLOBAL NAVBAR (now appears on every page) -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+        <ul class="navbar-nav">
+            <a class="navbar-brand" href="/">
+                <span class="navbar-text" style="font-family: 'Rockwell Extra Bold'; color: white;">
+                    Riget Zoo Adventures
+                </span>
+            </a>
+
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('main.add_visit') }}">Reserve and book tickets</a>
             </li>
-          </ul>
-        </div>
+
+
+            <li class="nav-item dropdown hover-menu">
+                <a class="nav-link" href="/menu">Attractions and Facilities</a>
+
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/attractions/birds">Birds</a></li>
+                <li><a class="dropdown-item" href="/attractions/mammals">Mammals</a></li>
+                <li><a class="dropdown-item" href="/attractions/gardens">Gardens</a></li>
+            </ul>
+            </li>
+
+
+
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/attractions/birds">Birds</a></li>
+        <li><a class="dropdown-item" href="/attractions/mammals">Mammals</a></li>
+        <li><a class="dropdown-item" href="/attractions/gardens">Gardens</a></li>
+    </ul>
+</li>
+
+
+            <li class="nav-item"><a class="nav-link" href="/educational">Educational Visits</a></li>
+
+            <li class="nav-item"><a class="nav-link" href="/feedback">Reserve and Book Tickets</a></li>
+
+            <li class="nav-item"><a class="nav-link" href="/jiggle">Feedback</a></li>
+
+            <li class="nav-item"><a class="nav-link" href="/bullplinth">Book hotel tickets</a></li>
+
+            {% if current_user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link" href="/user">{{ current_user.first_name }}'s Page</a></li>
+                <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+            {% else %}
+                <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+            {% endif %}
+        </ul>
+
+        <ul class="navbar-nav ms-auto">
+            {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <span class="navbar-text">{{ current_user.email_address }}</span>
+                </li>
+            {% endif %}
+            <li class="nav-item"><a class="nav-link" href="/order">Your Order</a></li>
+        </ul>
+    </div>
+
+</nav>
+
+<!-- FLASH MESSAGES (global) -->
+<div class="container mt-3">
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        {{ message }}
       </div>
-    </nav>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+</div>
 
+<!-- PAGE CONTENT -->
+{% block content %}{% endblock %}
 
-
-
-
-
-    <main>
-        {% block content %}
-        <!-- Page-specific content goes here -->
-        {% endblock %}
-    </main>
-
-
-    <footer>
-        <p>&copy; {{ current_year }} BEAN AND BREW. All rights reserved.</p>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
+

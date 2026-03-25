@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    body {
+        background: url("{{ url_for('static', filename='safari.jpg') }}")
+                    no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    .edu-box {
+        background: rgba(255, 255, 255, 0.92);
+        padding: 35px;
+        border-radius: 12px;
+        max-width: 900px;
+        margin: 50px auto;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 25px;
+    }
+
+    th, td {
+        padding: 12px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+
+    th {
+        background: #f4f4f4;
+        font-weight: bold;
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+</style>
+
+<div class="edu-box">
+    <h1>Educational Zoo Visits</h1>
+    <p>
+        Our zoo offers immersive and engaging educational visits designed to inspire students of all ages.
+        Whether you're studying habitats, conservation, animal behaviour, or biodiversity, our sessions bring
+        learning to life through real-world encounters and hands‑on experiences.
+    </p>
+
+    <h2>What Schools Can Expect</h2>
+    <ul>
+        <li>Interactive talks led by experienced education staff</li>
+        <li>Close‑up encounters with selected animals</li>
+        <li>Curriculum‑linked learning tailored to age groups</li>
+        <li>Access to all zoo exhibits for the full day</li>
+        <li>Designated lunch areas for school groups</li>
+    </ul>
+
+    <h2>Learning Themes</h2>
+    <ul>
+        <li>Habitats & Adaptations</li>
+        <li>Endangered Species & Conservation</li>
+        <li>Rainforest, Savannah, and Desert Ecosystems</li>
+        <li>Food Chains & Food Webs</li>
+        <li>Animal Behaviour & Enrichment</li>
+    </ul>
+
+    <h2>School Group Pricing</h2>
+    <p>Prices are based on age group and include full-day zoo access.</p>
+
+    <table>
+        <tr>
+            <th>School Age Group</th>
+            <th>Price per Student</th>
+            <th>Free Adults</th>
+        </tr>
+        <tr>
+            <td>Early Years / Nursery</td>
+            <td>£6.00</td>
+            <td>1 free adult per 4 children</td>
+        </tr>
+        <tr>
+            <td>Primary (KS1–KS2)</td>
+            <td>£7.50</td>
+            <td>1 free adult per 6 children</td>
+        </tr>
+        <tr>
+            <td>Secondary (KS3–KS4)</td>
+            <td>£8.50</td>
+            <td>1 free adult per 10 students</td>
+        </tr>
+        <tr>
+            <td>Sixth Form / College</td>
+            <td>£9.00</td>
+            <td>1 free adult per 12 students</td>
+        </tr>
+    </table>
+
+    <h2>Safety & Supervision</h2>
+    <p>
+        All school groups must be supervised at all times. Our staff are trained in animal welfare and visitor
+        safety, and risk assessments are available upon request. We recommend planning your visit in advance
+        to ensure a smooth and enjoyable day for everyone.
+    </p>
+
+    <h2>Booking Information</h2>
+    <p>
+        To book an educational visit, please contact our Education Team. We recommend booking at least
+        four weeks in advance during busy seasons.
+    </p>
+</div>
+
+{% endblock %}

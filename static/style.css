@@ -1,21 +1,48 @@
-.navbar {
-  background-color: #800020 !important; /* Indigo */
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-.navbar a {
-  color: #FFD700; /* Gold */
+.form-row {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
 }
 
-body {
-  background-color: #FFF2D7;
+.form-row label {
+    font-weight: 600;
 }
 
-.lightning-round {
-  background-color: #007bff;
-  transition: background-color 0.3s ease-in-out;
+.form-row input,
+.form-row select {
+    padding: 6px;
+    width: 100%;
 }
 
-.grid-4x4 {
-  grid-template-columns: repeat(4, 200px);
-  gap: 18px;
+.error {
+    grid-column: 2;
+    color: red;
+    font-size: 0.85em;
+}
+
+button {
+    margin-left: 150px;
+    padding: 8px 16px;
+}
+
+/* hover navbar */
+.navbar .hover-menu {
+    position: relative;
+}
+
+.navbar .hover-menu .dropdown-menu {
+    display: none;
+    top: 100%;
+    left: 0;
+}
+
+.navbar .hover-menu:hover > .dropdown-menu {
+    display: block;
 }
