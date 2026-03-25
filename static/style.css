@@ -1,48 +1,81 @@
-.form-container {
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    gap: 10px;
-    margin-bottom: 15px;
-    align-items: center;
-}
-
-.form-row label {
-    font-weight: 600;
-}
-
-.form-row input,
-.form-row select {
-    padding: 6px;
-    width: 100%;
-}
-
-.error {
-    grid-column: 2;
-    color: red;
-    font-size: 0.85em;
-}
-
-button {
-    margin-left: 150px;
-    padding: 8px 16px;
-}
-
-/* hover navbar */
-.navbar .hover-menu {
+/* Navbar */
+.navbar {
     position: relative;
+    z-index: 1000;                    /* keeps navbar on top of images */
+    background-color: #4a7c59 !important; /* lighter farm green */
 }
 
-.navbar .hover-menu .dropdown-menu {
-    display: none;
-    top: 100%;
-    left: 0;
+/* Center logo (floating over navbar) */
+.logo-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 60%;                           /* adjust vertical position */
 }
 
-.navbar .hover-menu:hover > .dropdown-menu {
-    display: block;
+.logo-center img {
+    height: 70px;
+    object-fit: contain;
+}
+
+/* Left corner logo */
+.logo-left img {
+    height: 50px;
+    object-fit: contain;
+}
+
+/* Hero images */
+.hero-img {
+    height: 575px;                      /* adjust as needed */
+    width: 100%;
+    object-fit: cover;                  /* fills the box; may crop */
+}
+
+/* Middle overlapping image */
+.middle-image {
+    position: absolute;
+    top: 0;
+    left: 50%;                          /* position at border of image1 & image2 */
+    transform: translateX(-90%);        /* fine-tune overlap */
+    height: 575px;                      /* same as hero images */
+    width: auto;
+    z-index: 10;
+    object-fit: cover;
+}
+
+/* Hero section pulled behind navbar */
+.hero-section {
+    margin-top: var(--hero-offset-y, 0px); /* adjustable vertical offset */
+}
+
+/* Green bar under images */
+.green-bar {
+    width: 100%;
+    height: 60px;                         /* adjust thickness */
+    background-color: #4a7c59;            /* same lighter green as navbar */
+}
+body {
+    background-color: #FFC000;  /* golden yellow background */
+    margin: 0;                  /* remove default browser margin */
+    overflow-y: auto;           /* allow vertical scrolling */
+}
+/* All category images the same size */
+.category-btn {
+    width: 100%;        /* fills its column */
+    max-width: 180px;   /* limits size on larger screens */
+    height: auto;
+    display: inline-block;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+/* Optional hover effect */
+.category-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Add spacing between columns on larger screens */
+.row.justify-content-center .col-md-3 {
+    padding-left: 15px;
+    padding-right: 15px;
 }
