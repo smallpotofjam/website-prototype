@@ -1,79 +1,9 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<body>
-
-<h3>Registration Form</h3>
-
-<form method="POST" class="form-container">
-    {{ form.hidden_tag() }}
-
-    <div class="form-row">
-        {{ form.email_address.label }}
-        {{ form.email_address }}
-        {% for error in form.email_address.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-    </div>
-
-    <div class="form-row">
-        {{ form.first_name.label }}
-        {{ form.first_name }}
-        {% for error in form.first_name.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-    </div>
-
-    <div class="form-row">
-        {{ form.last_name.label }}
-        {{ form.last_name }}
-        {% for error in form.last_name.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-    </div>
-
-    <div class="form-row">
-        {{ form.password.label }}
-        {{ form.password }}
-        {% for error in form.password.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-    </div>
-
-    <div class="form-row">
-        {{ form.house_number.label }}
-        {{ form.house_number }}
-        {% for error in form.house_number.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-    </div>
-
-    <div class="form-row">
-        {{ form.street_name.label }}
-        {{ form.street_name }}
-        {% for error in form.street_name.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-    </div>
-
-    <div class="form-row">
-        {{ form.country.label }}
-        {{ form.country }}
-        {% for error in form.country.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-    </div>
-
-    <div class="form-row">
-        {{ form.post_code.label }}
-        {{ form.post_code }}
-        {% for error in form.post_code.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-    </div>
-
+<form method="POST">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
     <button type="submit">Register</button>
 </form>
-
-</body>
 {% endblock %}

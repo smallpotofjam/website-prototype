@@ -1,16 +1,16 @@
-/* Navbar */
+/* ================= NAVBAR ================= */
 .navbar {
     position: relative;
-    z-index: 1000;                    /* keeps navbar on top of images */
-    background-color: #4a7c59 !important; /* lighter farm green */
+    z-index: 1000;
+    background-color: #4a7c59 !important;
 }
 
-/* Center logo (floating over navbar) */
+/* Center logo */
 .logo-center {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: 60%;                           /* adjust vertical position */
+    top: 60%;
 }
 
 .logo-center img {
@@ -18,64 +18,99 @@
     object-fit: contain;
 }
 
-/* Left corner logo */
+/* Left logo */
 .logo-left img {
     height: 50px;
     object-fit: contain;
 }
 
-/* Hero images */
+/* ================= HERO SECTION ================= */
 .hero-img {
-    height: 575px;                      /* adjust as needed */
+    height: 575px;
     width: 100%;
-    object-fit: cover;                  /* fills the box; may crop */
+    object-fit: cover;
 }
 
-/* Middle overlapping image */
 .middle-image {
     position: absolute;
     top: 0;
-    left: 50%;                          /* position at border of image1 & image2 */
-    transform: translateX(-90%);        /* fine-tune overlap */
-    height: 575px;                      /* same as hero images */
+    left: 50%;
+    transform: translateX(-90%);
+    height: 575px;
     width: auto;
     z-index: 10;
     object-fit: cover;
 }
 
-/* Hero section pulled behind navbar */
 .hero-section {
-    margin-top: var(--hero-offset-y, 0px); /* adjustable vertical offset */
+    margin-top: var(--hero-offset-y, 0px);
 }
 
-/* Green bar under images */
+/* ================= GREEN BAR ================= */
 .green-bar {
     width: 100%;
-    height: 60px;                         /* adjust thickness */
-    background-color: #4a7c59;            /* same lighter green as navbar */
-}
-body {
-    background-color: #FFC000;  /* golden yellow background */
-    margin: 0;                  /* remove default browser margin */
-    overflow-y: auto;           /* allow vertical scrolling */
-}
-/* All category images the same size */
-.category-btn {
-    width: 100%;        /* fills its column */
-    max-width: 180px;   /* limits size on larger screens */
-    height: auto;
-    display: inline-block;
-    transition: transform 0.3s ease;
-    cursor: pointer;
+    height: 60px;
+    background-color: #4a7c59;
 }
 
-/* Optional hover effect */
+/* ================= PAGE ================= */
+body {
+    background-color: #FFC000;
+    margin: 0;
+    overflow-y: auto;
+}
+
+/* ================= MAIN TITLE ================= */
+.title-image {
+    display: block;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+}
+
+/* ================= BUTTON ROW ================= */
+.button-row {
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+/* Ensure vertical alignment */
+.button-row .col-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+/* ================= MINI TITLES ================= */
+.mini-title {
+    width: 100%;
+    max-width: 200px;
+    height: 110px;              /* controls size */
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+/* ================= BUTTON IMAGES ================= */
+.category-btn {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Hover effect */
 .category-btn:hover {
     transform: scale(1.05);
 }
-
-/* Add spacing between columns on larger screens */
-.row.justify-content-center .col-md-3 {
-    padding-left: 15px;
-    padding-right: 15px;
+.info-box {
+    background-color: white;
+    padding: 25px;
+    max-width: 800px;
+    margin: 0 auto;          /* center it */
+    border-radius: 10px;     /* soft corners */
 }

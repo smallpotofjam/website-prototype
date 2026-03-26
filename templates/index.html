@@ -31,29 +31,40 @@
     <h2>Recommended by 9 out of 10 farmers nationally</h2>
 </div>
 
-<!-- 4 IMAGE BUTTONS -->
-<div class="container mt-5">
-    <div class="row text-center justify-content-center">
+<!-- TITLE IMAGE -->
+<div class="container text-center mt-5">
+    <img src="{{ url_for('static', filename='title.png') }}"
+         class="title-image"
+         alt="Title">
+</div>
 
-        <div class="col-6 col-md-3 mb-4">
+<!-- 4 IMAGE BUTTONS -->
+<div class="container mt-4">
+    <div class="row justify-content-between text-center button-row">
+
+        <div class="col-3">
+            <img src="{{ url_for('static', filename='fruit_title.png') }}" class="mini-title" alt="Fruit">
             <a href="{{ url_for('fruit_page') }}">
                 <img src="{{ url_for('static', filename='fruit.png') }}" class="category-btn" alt="Fruit">
             </a>
         </div>
 
-        <div class="col-6 col-md-3 mb-4">
+        <div class="col-3">
+            <img src="{{ url_for('static', filename='meat_title.png') }}" class="mini-title" alt="Meat">
             <a href="{{ url_for('meat_page') }}">
                 <img src="{{ url_for('static', filename='meat.png') }}" class="category-btn" alt="Meat">
             </a>
         </div>
 
-        <div class="col-6 col-md-3 mb-4">
+        <div class="col-3">
+            <img src="{{ url_for('static', filename='drinks_title.png') }}" class="mini-title" alt="Drinks">
             <a href="{{ url_for('drinks_page') }}">
                 <img src="{{ url_for('static', filename='drinks.png') }}" class="category-btn" alt="Drinks">
             </a>
         </div>
 
-        <div class="col-6 col-md-3 mb-4">
+        <div class="col-3">
+            <img src="{{ url_for('static', filename='new_title.png') }}" class="mini-title" alt="New">
             <a href="{{ url_for('new_page') }}">
                 <img src="{{ url_for('static', filename='new.png') }}" class="category-btn" alt="New">
             </a>
