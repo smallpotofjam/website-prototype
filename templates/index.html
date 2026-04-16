@@ -6,13 +6,13 @@
     <div class="row g-0">
 
         <div class="col-6">
-            <img src="{{ url_for('static', filename='sunrise.png') }}"
+            <img src="{{ url_for('static', filename='images/sunrise.png') }}"
                  class="img-fluid w-100 hero-img"
                  alt="Image 1">
         </div>
 
         <div class="col-6">
-            <img src="{{ url_for('static', filename='produce.png') }}"
+            <img src="{{ url_for('static', filename='images/produce.png') }}"
                  class="img-fluid w-100 hero-img"
                  alt="Image 2">
         </div>
@@ -20,7 +20,7 @@
     </div>
 
     <!-- OVERLAY IMAGE -->
-    <img src="{{ url_for('static', filename='img3.png') }}"
+    <img src="{{ url_for('static', filename='images/img3.png') }}"
          class="middle-image"
          alt="Middle Image">
 
@@ -33,7 +33,7 @@
 
 <!-- TITLE IMAGE -->
 <div class="container text-center mt-5">
-    <img src="{{ url_for('static', filename='title.png') }}"
+    <img src="{{ url_for('static', filename='images/title.png') }}"
          class="title-image"
          alt="Title">
 </div>
@@ -43,33 +43,34 @@
     <div class="row justify-content-between text-center button-row">
 
         <div class="col-3">
-            <img src="{{ url_for('static', filename='fruit_title.png') }}" class="mini-title" alt="Fruit">
-            <a href="{{ url_for('fruit_page') }}">
-                <img src="{{ url_for('static', filename='fruit.png') }}" class="category-btn" alt="Fruit">
+            <img src="{{ url_for('static', filename='images/fruit_title.png') }}" class="mini-title" alt="Fruit">
+            <a href="{{ url_for('products', category='Fruit and Veg') }}">
+                <img src="{{ url_for('static', filename='images/fruit.png') }}" class="category-btn" alt="Fruit">
             </a>
         </div>
 
         <div class="col-3">
-            <img src="{{ url_for('static', filename='meat_title.png') }}" class="mini-title" alt="Meat">
-            <a href="{{ url_for('meat_page') }}">
-                <img src="{{ url_for('static', filename='meat.png') }}" class="category-btn" alt="Meat">
+            <img src="{{ url_for('static', filename='images/meat_title.png') }}" class="mini-title" alt="Meat">
+            <a href="{{ url_for('products', category='Meat and Fish') }}">
+                <img src="{{ url_for('static', filename='images/meat.png') }}" class="category-btn" alt="Meat">
             </a>
         </div>
 
         <div class="col-3">
-            <img src="{{ url_for('static', filename='drinks_title.png') }}" class="mini-title" alt="Drinks">
-            <a href="{{ url_for('drinks_page') }}">
-                <img src="{{ url_for('static', filename='drinks.png') }}" class="category-btn" alt="Drinks">
+            <img src="{{ url_for('static', filename='images/drinks_title.png') }}" class="mini-title" alt="Drinks">
+            <a href="{{ url_for('products', category='Drink') }}">
+                <img src="{{ url_for('static', filename='images/drinks.png') }}" class="category-btn" alt="Drinks">
             </a>
         </div>
 
         <div class="col-3">
-            <img src="{{ url_for('static', filename='new_title.png') }}" class="mini-title" alt="New">
-            <a href="{{ url_for('new_page') }}">
-                <img src="{{ url_for('static', filename='new.png') }}" class="category-btn" alt="New">
+            <img src="{{ url_for('static', filename='images/new_title.png') }}" class="mini-title" alt="New">
+            <a href="{{ url_for('products', tags='New') }}">
+                <img src="{{ url_for('static', filename='images/new.png') }}" class="category-btn" alt="New">
             </a>
         </div>
 
     </div>
 </div>
+
 {% endblock %}

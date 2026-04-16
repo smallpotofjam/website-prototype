@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <form method="GET" class="mb-4 text-center">
+
+        <!-- 🔍 Search -->
+        <input type="text" name="search" placeholder="Search products..."
+               class="form-control w-50 d-inline mb-3"
+               value="{{ request.args.get('search', '') }}">
+
+        <!-- 🥩 Category -->
+        <select name="category" class="form-select w-25 d-inline mb-3">
+            <option value="">All Categories</option>
+
+            <option value="Meat and Fish"
+            {% if request.args.get('category') == 'Meat and Fish' %}selected{% endif %}>
+            Meat & Fish</option>
+
+            <option value="Fruit and Veg"
+            {% if request.args.get('category') == 'Fruit and Veg' %}selected{% endif %}>
+            Fruit & Veg</option>
+
+            <option value="Drink"
+            {% if request.args.get('category') == 'Drink' %}selected{% endif %}>
+            Drinks</option>
+
+            <option value="Misc"
+            {% if request.args.get('category') == 'Misc' %}selected{% endif %}>
+            Misc</option>
+        </select>
+
+        <!-- 🏷️ Tags -->
+        <div class="mt-3">
+
+            <label>
+            <input type="checkbox" name="tags" value="Vegan"
+            {% if 'Vegan' in request.args.getlist('tags') %}checked{% endif %}>
+            Vegan
+            </label>
+
+            <label>
+                <input type="checkbox" name="tags" value="Vegetarian"
+                {% if 'Vegetarian' in request.args.getlist('tags') %}checked{% endif %}>
+                Vegetarian
+            </label>
+
+            <label>
+                <input type="checkbox" name="tags" value="Organic"
+                {% if 'Organic' in request.args.getlist('tags') %}checked{% endif %}>
+                Organic
+            </label>
+
+            <label>
+                <input type="checkbox" name="tags" value="Gluten Free"
+                {% if 'Gluten Free' in request.args.getlist('tags') %}checked{% endif %}>
+                Gluten Free
+            </label>
+
+            <label>
+                <input type="checkbox" name="tags" value="Dairy Free"
+                {% if 'Dairy Free' in request.args.getlist('tags') %}checked{% endif %}>
+                Dairy Free
+            </label>
+
+            <label>
+                <input type="checkbox" name="tags" value="Alcohol"
+                {% if 'Alcohol' in request.args.getlist('tags') %}checked{% endif %}>
+                Alcohol
+            </label>
+
+            <label>
+                <input type="checkbox" name="tags" value="New"
+                {% if 'New' in request.args.getlist('tags') %}checked{% endif %}>
+                New
+            </label>
+
+        </div>
+
+        <br><br>
+
+        <button type="submit" class="btn btn-success">Apply Filters</button>
+
+</form>
+    <h2 class="text-center mb-4">Our Products</h2>
+
+    <div class="row">
+        {% for product in products %}
+        <div class="col-3 text-center mb-4">
+
+            <img src="{{ url_for('static', filename='images/' + product.image) }}"
+                 class="img-fluid"
+                 style="height:150px; object-fit:cover;">
+
+            <h5 class="mt-2">{{ product.name }}</h5>
+            <p>£{{ product.price }}</p>
+            <p>{{ product.description }}</p>
+
+            <p><strong>Category:</strong> {{ product.category }}</p>
+
+            <p>
+                {% for tag in product.tags.split(',') %}
+                    <span class="badge bg-success">{{ tag }}</span>
+                {% endfor %}
+            </p>
+
+            <a href="{{ url_for('add_to_cart', product_id=product.id)  }}"
+               class="btn btn-success mt-2">
+               Add to Cart
+            </a>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

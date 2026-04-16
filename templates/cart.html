@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+
+        <!-- 🛒 CART ITEMS -->
+        <div class="col-8">
+            <div class="p-3 border bg-light">
+
+                <h3>Your Cart</h3>
+
+                {% for item in cart_items %}
+                <div class="d-flex align-items-center mb-3">
+
+                    <img src="{{ url_for('static', filename='images/' + item.product.image) }}"
+                         style="width:100px; height:100px; object-fit:cover;">
+
+                    <div class="ms-3">
+                        <h5>{{ item.product.name }}</h5>
+                        <p>{{ item.product.description }}</p>
+                        <p>Quantity: {{ item.quantity }}</p>
+                        <p>£{{ item.item_total }}</p>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('decrease_quantity', product_id=item.product.id) }}"
+                           class="btn btn-danger btn-sm">-</a>
+
+                        <a href="{{ url_for('increase_quantity', product_id=item.product.id) }}"
+                           class="btn btn-success btn-sm">+</a>
+
+
+                    </div>
+
+                </div>
+                {% endfor %}
+
+                {% if cart_items|length == 0 %}
+                    <p>Your cart is empty</p>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <!-- 💰 TOTAL BOX -->
+        <div class="col-4">
+            <div class="p-3 border bg-light">
+
+                <h3>Summary</h3>
+
+                <p>Total: <strong>£{{ total }}</strong></p>
+
+                <!-- IMAGE BUTTON -->
+                <a href="{{ url_for('checkout') }}">
+                    <img src="{{ url_for('static', filename='images/checkout.png') }}"
+                         style="width:60%; cursor:pointer;">
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

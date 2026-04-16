@@ -23,6 +23,21 @@
     height: 50px;
     object-fit: contain;
 }
+.cart-logo img {
+    height: 50px;
+    object-fit: contain;
+
+}
+
+.cart-nav {
+    position: absolute;
+    left: 300px;   /* move left/right */
+    top: 50%;
+    transform: translateY(-50%);
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
 
 /* ================= HERO SECTION ================= */
 .hero-img {
